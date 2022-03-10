@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="./index.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="calculator">
+        <div class="showArea">
+          <div class="process"></div>
+          <div class="result"></div>
+        </div>
+        <ul class="code">
+          <li class="mathCode">(</li>
+          <li class="mathCode">)</li>
+          <li class="mathCode">%</li>
+          <li class="mathCode clear">C</li>
+          <li>7</li>
+          <li>8</li>
+          <li>9</li>
+          <li class="mathCode">/</li>
+          <li>4</li>
+          <li>5</li>
+          <li>6</li>
+          <li class="mathCode">*</li>
+          <li>1</li>
+          <li>2</li>
+          <li>3</li>
+          <li class="mathCode">-</li>
+          <li>0</li>
+          <li class="mathCode">.</li>
+          <li class="mathCode getResult">=</li>
+          <li class="mathCode">+</li>
+        </ul>
+      </div>
+    </div>
+  </body>
+  <script>
+    var li = document.querySelectorAll("li");
+    var process = document.querySelector(".process");
+    var clear = document.querySelector(".clear");
+    var result = document.querySelector(".result");
+    var getResult = document.querySelector(".getResult");
+    var str = "",
+      sum = 0, //计算的结果
+      operation = []; //存储获取到的运算符
+    console.log(str);
+    console.log(process);
+    for (let i = 0; i < li.length; i++) {
+      li[i].onmousedown = function () {
+        li[i].classList.add("activeColor");
+      };
+    }
+    for (let i = 0; i < li.length; i++) {
+      if (i == 18 || i == 3) {
+        continue;
+      }
+      li[i].onmouseup = function () {
+        li[i].classList.remove("activeColor");
+        // console.log(li[i].innerHTML);
+        process.innerHTML += li[i].innerHTML;
+        str = process.innerHTML;
+        console.log(str);
+      };
+    }
+    // 清除数字的功能
+    clear.onclick = function () {
+      clear.classList.remove("activeColor");
+      process.innerHTML = "";
+      str = "";
+      result.innerHTML = "";
+      operation = [];
+      sum = 0;
+    };
+    // 计算结果
+    getResult.onclick = function () {
+      getResult.classList.remove("activeColor");
+      if (result.innerHTML) {
+        alert("请先清空");
+      } else {
+        // 判断输入的格式有无错误
+        for (let i = 0; i < str.length; i++) {
+          if (str.charCodeAt(i) == 46) {
+            if (str.charCodeAt(i + 1) == 46) {
+              alert("格式错误,请重新输入");
+            }
+          }
+        }
+        // 获取运算符
+        for (let i = 0; i < str.length; i++) {
+          if (str.charCodeAt(i) == 42) {
+            operation.push(str.charAt(i));
+          } else if (str.charCodeAt(i) == 43) {
+            operation.push(str.charAt(i));
+          } else if (str.charCodeAt(i) == 45) {
+            operation.push(str.charAt(i));
+          } else if (str.charCodeAt(i) == 47) {
+            operation.push(str.charAt(i));
+          } else if (str.charCodeAt(i) == 37) {
+            operation.push(str.charAt(i));
+          }
+        }
+        //获取数值并转换成数组
+        str = str.replace(/\+/g, " ");
+        str = str.replace(/\-/g, " ");
+        str = str.replace(/\*/g, " ");
+        str = str.replace(/\//g, " ");
+        str = str.replace(/\%/g, " ");
+        num = str.split(" ");
+      }
+      // 先算乘除;
+      for (let j = 0; j < operation.length; j++) {
+        if (operation[j] == "%") {
+          num[j] = parseFloat(num[j]) % parseFloat(num[j + 1]);
+          num.splice(j + 1, 1, 0);
+          operation.splice(j, 1, " ");
+        }
+        if (operation[j] == "*") {
+          num[j] = parseFloat(num[j]) * parseFloat(num[j + 1]);
+          num.splice(j + 1, 1, 0);
+          operation.splice(j, 1, " ");
+        }
+        if (operation[j] == "/") {
+          num[j] = parseFloat(num[j]) / parseFloat(num[j + 1]);
+          num.splice(j + 1, 1, 0);
+          operation.splice(j, 1, " ");
+        }
+      }
+      // 后算加减
+      for (let j = 0; j < operation.length; j++) {
+        if (operation[j] == "-") {
+          num[j] = parseFloat(num[j]) - parseFloat(num[j + 1]);
+          num.splice(j + 1, 1, 0);
+          operation.splice(j, 1, " ");
+        }
+        if (operation[j] == "+") {
+          num[j] = parseFloat(num[j]) + parseFloat(num[j + 1]);
+          num.splice(j + 1, 1, 0);
+          operation.splice(j, 1, " ");
+        }
+      }
+      for (let i = 0; i < num.length; i++) {
+        sum += num[i];
+      }
+      result.innerHTML = sum;
+      // console.log(process.innerHTML);
+      // console.log(eval("1 + 1"));
+      // result.innerHTML = eval(process.innerHTML);
+    };
+  </script>
+</html>

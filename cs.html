@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body></body>
+  <script>
+    var str = "";
+    var result = 0, //计算的结果
+      operation = [], //存储获取到的运算符
+      index = []; // 运算符在字符串内的位置
+    // 判断输入的格式有无错误
+    for (let i = 0; i < str.length; i++) {
+      if (str.charCodeAt(i) == 46) {
+        if (str.charCodeAt(i + 1) == 46) {
+          alert("格式错误,请重新输入");
+        }
+      }
+    }
+
+    // 获取运算符
+    for (let i = 0; i < str.length; i++) {
+      if (str.charCodeAt(i) == 42) {
+        operation.push(str.charAt(i));
+      } else if (str.charCodeAt(i) == 43) {
+        operation.push(str.charAt(i));
+      } else if (str.charCodeAt(i) == 45) {
+        operation.push(str.charAt(i));
+      } else if (str.charCodeAt(i) == 47) {
+        operation.push(str.charAt(i));
+      } else if (str.charCodeAt(i) == 37) {
+        operation.push(str.charAt(i));
+      }
+    }
+    //获取数值并转换成数组
+    str = str.replace(/\+/g, " ");
+    str = str.replace(/\-/g, " ");
+    str = str.replace(/\*/g, " ");
+    str = str.replace(/\//g, " ");
+    str = str.replace(/\%/g, " ");
+    num = str.split(" ");
+    console.log(str);
+    console.log(num);
+    // 先算乘除;
+    for (let j = 0; j < operation.length; j++) {
+      if (operation[j] == "%") {
+        num[j] = parseFloat(num[j]) % parseFloat(num[j + 1]);
+        num.splice(j + 1, 1, 0);
+        operation.splice(j, 1, " ");
+      }
+      if (operation[j] == "*") {
+        num[j] = parseFloat(num[j]) * parseFloat(num[j + 1]);
+        num.splice(j + 1, 1, 0);
+        operation.splice(j, 1, " ");
+      }
+      if (operation[j] == "/") {
+        num[j] = parseFloat(num[j]) / parseFloat(num[j + 1]);
+        num.splice(j + 1, 1, 0);
+        operation.splice(j, 1, " ");
+      }
+    }
+    // 后算加减
+    for (let j = 0; j < operation.length; j++) {
+      if (operation[j] == "-") {
+        num[j] = parseFloat(num[j]) - parseFloat(num[j + 1]);
+        num.splice(j + 1, 1, 0);
+        operation.splice(j, 1, " ");
+      }
+      if (operation[j] == "+") {
+        num[j] = parseFloat(num[j]) + parseFloat(num[j + 1]);
+        num.splice(j + 1, 1, 0);
+        operation.splice(j, 1, " ");
+      }
+    }
+    for (let i = 0; i < num.length; i++) {
+      result += num[i];
+    }
+    console.log(result);
+    console.log(operation);
+    console.log(num);
+  </script>
+</html>
