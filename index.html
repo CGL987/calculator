@@ -60,6 +60,10 @@
         continue;
       }
       li[i].onmouseup = function () {
+        if (result.innerHTML) {
+          alert("请先清空");
+          return;
+        }
         li[i].classList.remove("activeColor");
         // console.log(li[i].innerHTML);
         process.innerHTML += li[i].innerHTML;
@@ -81,12 +85,14 @@
       getResult.classList.remove("activeColor");
       if (result.innerHTML) {
         alert("请先清空");
+        return;
       } else {
         // 判断输入的格式有无错误
         for (let i = 0; i < str.length; i++) {
           if (str.charCodeAt(i) == 46) {
             if (str.charCodeAt(i + 1) == 46) {
               alert("格式错误,请重新输入");
+              return;
             }
           }
         }
@@ -115,7 +121,7 @@
       // 先算乘除;
       for (let j = 0; j < operation.length; j++) {
         if (operation[j] == "%") {
-          num[j] = parseFloat(num[j]) % parseFloat(num[j + 1]);
+          num[j] = parseFloat(num[j]) / parseFloat(num[j + 1]);
           num.splice(j + 1, 1, 0);
           operation.splice(j, 1, " ");
         }
